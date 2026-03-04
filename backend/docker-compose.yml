@@ -1,0 +1,57 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: board-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_DATABASE: board
+      MYSQL_USER: board
+      MYSQL_PASSWORD: board1234
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - board-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    image: ${DOCKERHUB_USERNAME}/board-backend:latest
+    container_name: board-backend
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: board
+      DB_USERNAME: board
+      DB_PASSWORD: board1234
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - board-network
+    restart: unless-stopped
+
+  frontend:
+    image: ${DOCKERHUB_USERNAME}/board-frontend:latest
+    container_name: board-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - board-network
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
+
+networks:
+  board-network:
+    driver: bridge
