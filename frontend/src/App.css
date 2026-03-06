@@ -1,15 +1,9 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
-table{
-  width: 300px;
-  border: 1px solid white;
-  border-collapse: collapse;
-}
-table td, table th{
-  border: 1px solid white;
+body {
+  margin: 0;
 }
