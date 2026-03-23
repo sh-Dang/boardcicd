@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './Login.css';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('로그인시도 유저 정보:', { username, password });
+  // 비동기 요청 함수
+  const handleSubmit = async(e) => { 
+    
+    e.preventDefault(); // 기본 동작(페이지 새로고침) 방지
+    console.log('로그인시도 유저 정보:', { username, password }); // 로그인 시도 시 최초 출력
+
+    const response = await axios.post('/api/auth/login', { // 백엔드 API 비동기 방식으로 요청보냄 vite.config에서 프록시 설정으로 코드 단순화
+      username,
+      password
+    });
+
+    console.log('로그인 완료, 반환받은 정보: ', response.data);
+    
   };
 
   return (
