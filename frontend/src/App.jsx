@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from './pages/Login';
-import Board from './pages/Board';
-import BoardDetail from './pages/BoardDetail';
+import Login from './pages/member/Login';
+import Signup from './pages/member/Signup';
+import Board from './pages/board/Board';
+import BoardDetail from './pages/board/BoardDetail';
 import Header from './components/Header';
 
 
@@ -18,7 +19,8 @@ function App() {
         <Routes>
           {/* 기본 경로 → 로그인 페이지 */}
           <Route path="/" element={<Login />} />
-
+          <Route path="/signup" element={<Signup />} />
+          
           {/* 게시판 목록 페이지 */}
           <Route path="/board" element={<Board />} />
 

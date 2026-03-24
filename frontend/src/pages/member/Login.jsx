@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css';
 
@@ -52,6 +53,7 @@ function Login() {
           Login
         </button>
       </form>
+      <Link to="/signup" className="signup-button">회원가입</Link>
     </div>
   );
 }
