@@ -1,4 +1,4 @@
-package com.boardcicd.board.dto.request;
+package com.boardcicd.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

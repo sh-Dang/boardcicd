@@ -1,4 +1,4 @@
-package com.boardcicd.board.dto.response;
+package com.boardcicd.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

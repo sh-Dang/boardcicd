@@ -3,7 +3,6 @@ package com.boardcicd.member.controller;
 import com.boardcicd.member.dto.LoginRequest;
 import com.boardcicd.member.dto.SignUpRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class MemberController {
 
+    /**
+     * 유저의 로그인 시도를 받아들이는 메서드
+     *
+     * @param request 프론트엔드에서 들어온 로그인 요청객체
+     * @return 응답객체 생성 후 return하기
+     */
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest request) {
 
@@ -34,7 +39,7 @@ public class MemberController {
     /**
      * 유저의 회원가입시도를 받아들이는 메서드
      *
-     * @param request 프론트엔드에서 들어온 요청객체
+     * @param request 프론트엔드에서 들어온 회원가입 요청객체
      * @return 응답객체 생성 후 return하기
      */
     @PostMapping("/signup")

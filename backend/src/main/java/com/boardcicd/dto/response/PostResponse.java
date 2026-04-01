@@ -1,4 +1,4 @@
-package com.boardcicd.board.dto.response;
+package com.boardcicd.dto.response;
 
 import com.boardcicd.board.entity.Post;
 import lombok.Builder;

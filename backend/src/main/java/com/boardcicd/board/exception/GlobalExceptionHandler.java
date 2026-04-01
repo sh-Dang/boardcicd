@@ -1,6 +1,6 @@
 package com.boardcicd.board.exception;
 
-import com.boardcicd.board.dto.response.ApiResponse;
+import com.boardcicd.dto.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
