@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import './Board.css';
 
-const mockPosts = [
-  { id: 1, title: 'First post', author: 'Admin', createdAt: '2024-01-01' },
-  { id: 2, title: 'Second post', author: 'User1', createdAt: '2024-01-02' },
-  { id: 3, title: 'Third post', author: 'User2', createdAt: '2024-01-03' },
-];
-
 function Board() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    axios.get('/api/posts')
+      .then((response) => {
+        setPosts(response.data);
+      })
+      .catch((error) => {
+        console.error('게시글 조회 실패:', error);
+      });
+  }, []);
+
   return (
     <div className="board-container">
       <h2 className="board-title">Board</h2>
@@ -29,13 +36,14 @@ function Board() {
         </thead>
 
         <tbody>
-          {mockPosts.map((post) => (
+          {posts.map((post) => (
             <tr key={post.id}>
               <td>{post.id}</td>
               <td>{post.title}</td>
+              <td>{post.title}</td>
               <td>{post.author}</td>
               <td>{post.createdAt}</td>
-              <td>0</td>
+              <td>{post.viewCount}</td>
             </tr>
           ))}
         </tbody>
