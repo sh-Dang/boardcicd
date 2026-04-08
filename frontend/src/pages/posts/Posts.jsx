@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import './Board.css';
+import './Posts.css';
 
-function Board() {
+function Posts() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -17,14 +17,10 @@ function Board() {
   }, []);
 
   return (
-    <div className="board-container">
-      <h2 className="board-title">Board</h2>
+    <div className="posts-container">
+      <h2 className="posts-title">자유 게시판<button>글쓰기</button></h2>
 
-      <Link to="/new-post">
-        <button className="board-btn">New Post</button>
-      </Link>
-
-      <table className="board-table">
+      <table className="posts-table">
         <thead>
           <tr>
             <th>게시번호</th>
@@ -40,10 +36,9 @@ function Board() {
             <tr key={post.id}>
               <td>{post.id}</td>
               <td>{post.title}</td>
-              <td>{post.title}</td>
               <td>{post.author}</td>
               <td>{post.createdAt}</td>
-              <td>{post.viewCount}</td>
+              <td>{post.updatedAt}</td>
             </tr>
           ))}
         </tbody>
@@ -52,4 +47,4 @@ function Board() {
   );
 }
 
-export default Board;
+export default Posts;

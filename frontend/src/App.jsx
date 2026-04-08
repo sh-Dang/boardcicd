@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from './pages/member/Login';
-import Signup from './pages/member/Signup';
-import Board from './pages/board/Board';
-import BoardDetail from './pages/board/BoardDetail';
+import Login from './pages/members/Login';
+import Signup from './pages/members/Signup';
+import Posts from './pages/posts/Posts';
+import Post from './pages/posts/Post';
 import Header from './components/Header';
 
 
@@ -22,10 +22,10 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           
           {/* 게시판 목록 페이지 */}
-          <Route path="/board" element={<Board />} />
+          <Route path="/posts" element={<Posts />} />
 
-          {/* 게시글 상세 페이지 (동적 파라미터 :id 사용) */}
-          <Route path="/board/:id" element={<BoardDetail />} />
+          {/* 게시글(post로 대체) */}
+          <Route path="/posts/:id" element={<Post />} />
         </Routes>
       </BrowserRouter>
     </>

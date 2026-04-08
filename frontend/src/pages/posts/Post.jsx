@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function BoardDetail() {
+function Post() {
 
 }
 
-export default BoardDetail;
+export default Post;
