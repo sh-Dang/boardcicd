@@ -1,5 +1,6 @@
 package com.boardcicd.domain.post.controller;
 
+import com.boardcicd.domain.post.dto.PostResponseDto;
 import com.boardcicd.domain.post.entity.Post;
 import com.boardcicd.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,11 @@ public class PostController {
 
     // DB내 게시글들을 불러오는 메서드
     @GetMapping
-    public List<Post> getPosts() {
-        return postService.getPosts();
+    public List<PostResponseDto> getPosts() {
+        log.debug("전체 게시글 조회요청");
+        return postService.getPosts().stream()
+                .map(PostResponseDto::new)
+                .toList();
     }
 
     // 특정 게시글 조회 메서드
