@@ -9,6 +9,7 @@ function Posts() {
   useEffect(() => {
     axios.get('/api/posts')
       .then((response) => {
+        console.log(response);
         setPosts(response.data);
       })
       .catch((error) => {
@@ -27,7 +28,7 @@ function Posts() {
             <th>제목</th>
             <th>작성자</th>
             <th>작성일</th>
-            <th>조회수</th>
+            {/* <th>조회수</th> */}
           </tr>
         </thead>
 
@@ -36,9 +37,9 @@ function Posts() {
             <tr key={post.id}>
               <td>{post.id}</td>
               <td>{post.title}</td>
-              <td>{post.author}</td>
+              <td>{post.username}</td>
               <td>{post.createdAt}</td>
-              <td>{post.updatedAt}</td>
+              {/* <td>{post.updatedAt}</td> */}
             </tr>
           ))}
         </tbody>
