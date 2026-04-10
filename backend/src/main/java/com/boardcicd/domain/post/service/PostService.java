@@ -1,5 +1,7 @@
 package com.boardcicd.domain.post.service;
 
+import com.boardcicd.domain.member.entity.Member;
+import com.boardcicd.domain.member.repository.MemberRepository;
 import com.boardcicd.domain.post.entity.Post;
 import com.boardcicd.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,14 @@ public class PostService {
 
     // 게시글 등록 메서드
     public Post createPost(Post post) {
+
+        // 테스트용 임시코드(Member연결후 지우기) 4/10
+        Member member = new Member();
+        member.setId(3L);
+        member.setEmail("hi@naver.com");
+        member.setNickname("이세형");
+        post.setMember(member);
+
         return postRepository.save(post);
     }
 

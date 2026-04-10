@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Posts.css';
 
+// 전체 게시글 불러오는 페이지
 function Posts() {
   const [posts, setPosts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get('/api/posts')
@@ -19,7 +21,11 @@ function Posts() {
 
   return (
     <div className="posts-container">
-      <h2 className="posts-title">자유 게시판<button>글쓰기</button></h2>
+      <h2 className="posts-title">자유 게시판
+        <Link to="/posts/new"> {/* 새로운 글쓰기 페이지로 링크 */}
+          <button type="button">글쓰기</button>
+        </Link>
+      </h2>
 
       <table className="posts-table">
         <thead>
@@ -34,7 +40,12 @@ function Posts() {
 
         <tbody>
           {posts.map((post) => (
-            <tr key={post.id}>
+            // 게시글에 해당 게시글로 연결하는 버튼설정
+            <tr
+              key={post.id}
+              onClick={() => navigate(`/posts/${post.id}`)}
+              style={{ cursor: 'pointer' }}
+            > 
               <td>{post.id}</td>
               <td>{post.title}</td>
               <td>{post.username}</td>

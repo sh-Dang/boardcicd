@@ -5,7 +5,9 @@ import Login from './pages/members/Login';
 import Signup from './pages/members/Signup';
 import Posts from './pages/posts/Posts';
 import Post from './pages/posts/Post';
+import PostWrite from './pages/posts/PostWrite';
 import Header from './components/Header';
+
 
 
 function App() {
@@ -26,6 +28,10 @@ function App() {
 
           {/* 게시글(post로 대체) */}
           <Route path="/posts/:id" element={<Post />} />
+
+          {/* 게시판 글쓰기 페이지 */}
+          <Route path="/posts/new" element={<PostWrite />} />
+
         </Routes>
       </BrowserRouter>
     </>
