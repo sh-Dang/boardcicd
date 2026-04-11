@@ -28,11 +28,11 @@ public class PostService {
     // 게시글 등록 메서드
     public Post createPost(Post post) {
 
-        // 테스트용 임시코드(Member연결후 지우기) 4/10
+        // 유저정보 할당용 임시코드(Member연결후 지우기)
         Member member = new Member();
-        member.setId(3L);
+        member.setId(1L);
         member.setEmail("hi@naver.com");
-        member.setNickname("이세형");
+        member.setNickname("dummy1");
         post.setMember(member);
 
         return postRepository.save(post);

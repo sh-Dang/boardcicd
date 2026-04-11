@@ -34,24 +34,39 @@ public class PostController {
 
     // 특정 게시글 조회 메서드
     @GetMapping("/{postId}")
-    public Post getPost(@PathVariable Long postId) {
+    public PostResponseDto getPost(@PathVariable Long postId) {
         log.debug("조회 요청된 게시글 postId={}", postId);
-        return postService.getPost(postId);
+
+        /*
+          Controller Layer에서 DTO 변환을 수행하는 이유는
+          MVC 패턴에서 Controller가 HTTP 요청/응답을 담당하는 계층이기 때문이다.
+
+          DTO는 클라이언트와의 데이터 교환을 위한 객체로, 프레젠테이션 계층에 속한다.
+          따라서 비즈니스 로직을 담당하는 Service가 아닌,
+          Controller에서 Entity → ResponseDTO 변환을 수행하는 것이 계층 분리에 적합하다.
+         */
+        Post foundPost = postService.getPost(postId); // ResponseEntity를 반환하기
+
+        return new PostResponseDto(foundPost);
     }
 
     // 게시글 등록 메서드
     @PostMapping
-    public Post createPost(@RequestBody Post post) {
+    public PostResponseDto createPost(@RequestBody Post post) {
         log.debug("등록 요청된 게시글 제목 title={}", post.getTitle());
-        return postService.createPost(post);
+
+        Post savedPost = postService.createPost(post); // ResponseEntity를 반환하기
+        return new PostResponseDto(savedPost);
     }
 
     // 게시글 일부 수정 메서드
     @PatchMapping("/{postId}")
-    public Post updatePost(@PathVariable Long postId,
+    public PostResponseDto updatePost(@PathVariable Long postId,
                            @RequestBody Post post) {
         log.debug("수정 요청된 게시글 postId={}", postId);
-        return postService.updatePost(postId, post);
+
+        Post updatedPost = postService.updatePost(postId, post);
+        return new PostResponseDto(updatedPost);
     }
 
     // 게시글 삭제 메서드
