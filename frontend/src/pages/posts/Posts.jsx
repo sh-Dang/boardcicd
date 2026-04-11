@@ -43,7 +43,7 @@ function Posts() {
             // 게시글에 해당 게시글로 연결하는 버튼설정
             <tr
               key={post.id}
-              onClick={() => navigate(`/posts/${post.id}`)}
+              onClick={() => navigate(`/posts/${post.id}`)} // naviagte의 동작원리 이해하기
               style={{ cursor: 'pointer' }}
             > 
               <td>{post.id}</td>

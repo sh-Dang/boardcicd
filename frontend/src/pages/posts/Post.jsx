@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Post.css';
 
@@ -7,6 +7,20 @@ import './Post.css';
 function Post() {
     const { id } = useParams(); // /posts/:id 에서 id 추출
     const [post, setPost] = useState(null);
+    const navigate = useNavigate();
+
+    const handleDelete = () => {
+        if (!window.confirm('정말 삭제하시겠습니까?')) return;
+
+        axios.delete(`/api/posts/${id}`)
+            .then(() => {
+                alert('삭제 완료');
+                navigate('/posts'); // 목록으로 이동
+            })
+            .catch((err) => {
+                console.error('삭제 실패:', err);
+            });
+    };
 
     useEffect(()=>{
         axios.get(`/api/posts/${id}`)
@@ -18,7 +32,10 @@ function Post() {
                 console.error('게시글 조회 실패:', err);
         })
     }, [id]); // Id바뀔떄만 실행
-    
+
+
+
+    // 로딩중일때 표시할 화면
     if (!post) return <div>로딩중...</div>;
 
     return(
@@ -39,7 +56,25 @@ function Post() {
                 </div>
 
             </div>
+
+        {/* 버튼 영역 분리 */}
+        <div className='post-actions'>
+            <button
+                className='edit-btn'
+                onClick={() => navigate(`/posts/${id}/edit`)}
+            >
+                게시글 수정
+            </button>
+
+            <button
+                className='delete-btn'
+                onClick={handleDelete}
+            >
+                게시글 삭제
+            </button>
         </div>
+        </div>
+        
     )
 }
 

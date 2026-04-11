@@ -7,6 +7,7 @@ import Posts from './pages/posts/Posts';
 import Post from './pages/posts/Post';
 import PostWrite from './pages/posts/PostWrite';
 import Header from './components/Header';
+import PostEdit from './pages/posts/PostEdit';
 
 
 
@@ -32,6 +33,8 @@ function App() {
           {/* 게시판 글쓰기 페이지 */}
           <Route path="/posts/new" element={<PostWrite />} />
 
+          {/* 게시판 편집 페이지 */}
+          <Route path="/posts/:id/edit" element={<PostEdit />} />
         </Routes>
       </BrowserRouter>
     </>

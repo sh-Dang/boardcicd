@@ -5,9 +5,12 @@ import com.boardcicd.domain.post.entity.Post;
 import com.boardcicd.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 게시글(Post) 관련 HTTP 요청을 처리하는 컨트롤러
@@ -69,11 +72,27 @@ public class PostController {
         return new PostResponseDto(updatedPost);
     }
 
-    // 게시글 삭제 메서드
+    /**
+     * 게시글 삭제 API
+     * [응답]
+     * - 상태코드: 200 OK
+     * - Body:
+     *   {
+     *     "message": "삭제 완료",
+     *     "status": 200
+     *   }
+     * @since 2026/04/11
+     */
     @DeleteMapping("/{postId}")
-    public String deletePost(@PathVariable Long postId) {
+    public ResponseEntity<Map<String, Object>> deletePost(@PathVariable Long postId) {
         log.debug("삭제 요청된 게시글 postId={}", postId);
         postService.deletePost(postId);
-        return "게시글이 삭제되었습니다.";
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "삭제 완료");
+        response.put("status", 200);
+
+        return ResponseEntity.ok(response);
     }
+
 }
