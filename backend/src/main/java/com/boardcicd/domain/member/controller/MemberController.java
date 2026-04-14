@@ -1,7 +1,7 @@
 package com.boardcicd.domain.member.controller;
 
-import com.boardcicd.domain.member.dto.LoginRequest;
-import com.boardcicd.domain.member.dto.SignUpRequest;
+import com.boardcicd.domain.member.dto.LoginRequestDto;
+import com.boardcicd.domain.member.dto.SignupRequestDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +26,7 @@ public class MemberController {
      * @return 응답객체 생성 후 return하기
      */
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request) {
+    public String login(@RequestBody LoginRequestDto request) {
 
         log.debug("가져온 유저네임: {}", request.getUsername());
         log.debug("가져온 비밀번호: {}", request.getPassword());
@@ -43,7 +43,7 @@ public class MemberController {
      * @return 응답객체 생성 후 return하기
      */
     @PostMapping("/signup")
-    public String signUp(@RequestBody SignUpRequest request) {
+    public String signUp(@RequestBody SignupRequestDto request) {
         log.debug("회원가입 시도한 user == {}", request.getUsername());
         log.debug("회원가입 시도한 password == {}", request.getPassword());
 

@@ -1,0 +1,89 @@
+/* 전체 컨테이너 */
+.post-edit-container {
+  max-width: 800px;
+  margin: 100px auto 40px; /* header fixed 고려 */
+  padding: 20px;
+
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 제목 */
+.post-edit-container h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* 폼 */
+.post-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* input */
+.post-edit-form input {
+  width: 100%;
+  padding: 12px;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  font-size: 16px;
+  outline: none;
+
+  transition: border-color 0.2s;
+}
+
+.post-edit-form input:focus {
+  border-color: #4a90e2;
+}
+
+/* textarea */
+.post-edit-form textarea {
+  width: 100%;
+  padding: 12px;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  font-size: 15px;
+  resize: none;
+
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.post-edit-form textarea:focus {
+  border-color: #4a90e2;
+}
+
+/* 버튼 */
+.post-edit-form button {
+  margin-top: 10px;
+  padding: 12px;
+
+  border: none;
+  border-radius: 8px;
+
+  background-color: #4a90e2;
+  color: white;
+
+  font-size: 16px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+/* hover */
+.post-edit-form button:hover {
+  background-color: #357abd;
+}
+
+/* 클릭 효과 */
+.post-edit-form button:active {
+  transform: scale(0.98);
+}

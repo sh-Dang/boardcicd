@@ -24,7 +24,7 @@ public class Member {
     private String nickname; // 닉네임
 
     @Column(nullable = false, length = 255)
-    private String password; // 비밀번호
+    private String password; // 비밀번호 암호화 저장
 
     @Column(nullable = false, length = 50, unique = true)
     private String username; // 유저이름

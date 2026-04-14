@@ -1,10 +1,16 @@
-package com.boardcicd.domain.auth.setvice;
+package com.boardcicd.domain.auth.service;
 
+import com.boardcicd.domain.member.dto.LoginRequestDto;
+import com.boardcicd.domain.member.dto.LoginResponseDto;
+import com.boardcicd.domain.member.dto.SignupRequestDto;
 import com.boardcicd.domain.member.dto.SignupResponseDto;
+import com.boardcicd.domain.member.entity.Member;
 import com.boardcicd.domain.member.repository.MemberRepository;
 import com.boardcicd.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +23,6 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
 
     public SignupResponseDto signup(SignupRequestDto dto) {
-        if (memberRepository.existsByUsername(dto.getUsername())) {
-            throw new IllegalArgumentException("이미 사용 중인 username입니다.");
-        }
-
         if (memberRepository.existsByEmail(dto.getEmail())) {
             throw new IllegalArgumentException("이미 사용 중인 email입니다.");
         }
@@ -48,6 +50,9 @@ public class AuthService {
 
         String accessToken = jwtTokenProvider.createToken(authentication.getName());
 
-        return new LoginResponseDto(accessToken, "Bearer");
+        return new LoginResponseDto(
+                accessToken,
+                "Bearer");
+
     }
 }
