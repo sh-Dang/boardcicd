@@ -8,6 +8,5 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class LoginResponseDto {
-    private String accessToken;
-    private String tokenType;
+    private String accessToken; // accessToken만 반환하여 메모리이동 최소화
 }

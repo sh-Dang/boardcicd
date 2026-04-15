@@ -47,15 +47,14 @@ public class AuthService {
     }
 
     public LoginResponseDto login(LoginRequestDto dto) {
+        // 들어온 로그인요청을 토대로 DB조회 → 올바른경우 SecretKey와 조합하여 JWT생성 후 반환
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword())
         );
 
         String accessToken = jwtTokenProvider.createToken(authentication.getName());
 
-        return new LoginResponseDto(
-                accessToken,
-                "Bearer");
+        return new LoginResponseDto(accessToken);
 
     }
 }

@@ -1,8 +1,16 @@
 import React from "react";
 import "./Header.css";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
-function Header(){
+function Header({ isLogin, setIsLogin }){
+    const accessToken = localStorage.getItem('accessToken');
+    const navigate = useNavigate();
+    const handleLogout = () => {
+      localStorage.removeItem('accessToken');
+      setIsLogin(false);
+      navigate('/login', { replace: true });
+    };
+
     return(
     <header className="header">
       <Link to="/posts">
@@ -10,9 +18,14 @@ function Header(){
       </Link>
 
       <nav className="nav">
-        <a href="/posts">게시판</a>
-        <a href="/">로그인</a>
-        <a href="/signup">회원가입</a>
+        {isLogin ? (
+          <button onClick={handleLogout}>로그아웃</button>
+        ) : (
+          <>
+            <Link to="/login">로그인</Link>
+            <Link to="/signup">회원가입</Link>
+          </>
+        )}
       </nav>
     </header>
     );

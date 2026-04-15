@@ -12,16 +12,19 @@ import PostEdit from './pages/posts/PostEdit';
 
 
 function App() {
+  const [isLogin, setIsLogin] = useState(!!localStorage.getItem('accessToken'));
+
   return (
     <>
       {/* 라우터 시작 : URL에 따라 페이지 컴포넌트를 렌더링 */}
       <BrowserRouter>
         {/* 모든 페이지에서 공통으로 사용하는 헤더 */}
-        <Header />
+        {/* 로그인 시 라우팅 상태반영을 위해 isLogin 플래그 관리 */}
+        <Header isLogin={isLogin} setIsLogin={setIsLogin} />
 
         <Routes>
           {/* 기본 경로 → 로그인 페이지 */}
-          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login setIsLogin={setIsLogin} />}  />
           <Route path="/signup" element={<Signup />} />
           
           {/* 게시판 목록 페이지 */}
