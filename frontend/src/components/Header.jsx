@@ -18,14 +18,7 @@ function Header({ isLogin, setIsLogin }){
       </Link>
 
       <nav className="nav">
-        {isLogin ? (
-          <button onClick={handleLogout}>로그아웃</button>
-        ) : (
-          <>
-            <Link to="/login">로그인</Link>
-            <Link to="/signup">회원가입</Link>
-          </>
-        )}
+        {isLogin ? <button onClick={handleLogout}>로그아웃</button> : <Link to="/login">로그인</Link>}
       </nav>
     </header>
     );

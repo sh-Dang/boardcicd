@@ -3,6 +3,7 @@ package com.boardcicd.domain.post.controller;
 import com.boardcicd.domain.post.dto.PostResponseDto;
 import com.boardcicd.domain.post.entity.Post;
 import com.boardcicd.domain.post.service.PostService;
+import com.boardcicd.global.dto.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class PostController {
 
     // 특정 게시글 조회 메서드
     @GetMapping("/{postId}")
-    public PostResponseDto getPost(@PathVariable Long postId) {
+    public ApiResponse<PostResponseDto> getPost(@PathVariable Long postId) {
         log.debug("조회 요청된 게시글 postId={}", postId);
 
         /*
@@ -50,26 +51,26 @@ public class PostController {
          */
         Post foundPost = postService.getPost(postId); // ResponseEntity를 반환하기
 
-        return new PostResponseDto(foundPost);
+        return ApiResponse.success(new PostResponseDto(foundPost));
     }
 
     // 게시글 등록 메서드
     @PostMapping
-    public PostResponseDto createPost(@RequestBody Post post) {
+    public ApiResponse<PostResponseDto> createPost(@RequestBody Post post) {
         log.debug("등록 요청된 게시글 제목 title={}", post.getTitle());
 
         Post savedPost = postService.createPost(post); // ResponseEntity를 반환하기
-        return new PostResponseDto(savedPost);
+        return ApiResponse.success(new PostResponseDto(savedPost));
     }
 
     // 게시글 일부 수정 메서드
     @PatchMapping("/{postId}")
-    public PostResponseDto updatePost(@PathVariable Long postId,
+    public ApiResponse<PostResponseDto> updatePost(@PathVariable Long postId,
                            @RequestBody Post post) {
         log.debug("수정 요청된 게시글 postId={}", postId);
 
         Post updatedPost = postService.updatePost(postId, post);
-        return new PostResponseDto(updatedPost);
+        return ApiResponse.success(new PostResponseDto(updatedPost));
     }
 
     /**

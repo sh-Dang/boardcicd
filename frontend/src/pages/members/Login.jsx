@@ -10,17 +10,17 @@ function Login({ setIsLogin }) {
 
   // 이미 로그인된 사용자는 로그인 페이지 접근 차단
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
+    const accessToken = localStorage.getItem('accessToken');
 
-    if (token) {
+    if (accessToken && accessToken !== 'undefined' && accessToken !== 'null') {
+      setIsLogin(true);
       navigate('/posts', { replace: true });
     }
-  }, [navigate]);
+  }, [navigate, setIsLogin]);
 
   // 비동기 요청 함수
-  const handleSubmit = async(e) => { 
-    e.preventDefault(); // 기본 동작(페이지 새로고침) 
-    
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       console.log('로그인시도 유저 정보:', { email, password });
 
@@ -28,19 +28,24 @@ function Login({ setIsLogin }) {
         email,
         password
       });
-      console.log('로그인 완료, 반환받은 정보:', response.data); // 백엔드에서는 토큰만 보내줌
 
-      const { accessToken } = response.data;
+      const accessToken = response?.data?.data?.accessToken;
+
+      if (!accessToken || accessToken === 'undefined' || accessToken === 'null') {
+        console.error('유효하지 않은 accessToken:', response.data);
+        alert('로그인 실패: 토큰이 올바르지 않습니다.');
+        return;
+      }
 
       localStorage.setItem('accessToken', accessToken);
+      console.log('로그인 완료, 반환받은 정보:', accessToken);
 
-      console.log('accessToken 저장 완료');
-      setIsLogin(true); // 로그아웃 버튼을 바로 렌더링하기위한 플래그
-      navigate('/posts'); // 로그인 성공시 게시글이 있는 페이지로
+      setIsLogin(true);
+      navigate('/posts', { replace: true });
     } catch (error) {
       console.error('로그인 실패:', error);
-    };
-
+      alert('로그인에 실패했습니다.');
+    }
   };
 
   return (
@@ -49,11 +54,11 @@ function Login({ setIsLogin }) {
 
       <form onSubmit={handleSubmit}>
         <div className="login-form-group">
-          <label htmlFor="username">Email</label>
+          <label htmlFor="email">Email</label>
           <input
             className="login-input"
             type="text"
-            id="username"
+            id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -74,6 +79,7 @@ function Login({ setIsLogin }) {
           Login
         </button>
       </form>
+
       <Link to="/signup" className="signup-button">회원가입</Link>
     </div>
   );

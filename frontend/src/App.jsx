@@ -12,7 +12,11 @@ import PostEdit from './pages/posts/PostEdit';
 
 
 function App() {
-  const [isLogin, setIsLogin] = useState(!!localStorage.getItem('accessToken'));
+  const [isLogin, setIsLogin] = useState(() => {
+  const token = localStorage.getItem('accessToken');
+    // 토큰이 null이나 undefined가 아니고, 실제 값이 들어있을 때만 true
+    return !!token && token !== "undefined" && token !== "null"
+  });
 
   return (
     <>
