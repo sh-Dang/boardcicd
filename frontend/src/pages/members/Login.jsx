@@ -4,17 +4,17 @@ import axios from 'axios';
 import './Login.css';
 
 function Login() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   // 비동기 요청 함수
   const handleSubmit = async(e) => { 
     
     e.preventDefault(); // 기본 동작(페이지 새로고침) 방지
-    console.log('로그인시도 유저 정보:', { username, password }); // 로그인 시도 시 최초 출력
+    console.log('로그인시도 유저 정보:', { email, password }); // 로그인 시도 시 최초 출력
 
-    const response = await axios.post('/api/auth/login', { // 백엔드 API 비동기 방식으로 요청보냄 vite.config에서 프록시 설정으로 코드 단순화
-      username,
+    const response = await axios.post('/api/auth/login', {
+      email,
       password
     });
 
@@ -28,13 +28,13 @@ function Login() {
 
       <form onSubmit={handleSubmit}>
         <div className="login-form-group">
-          <label htmlFor="username">Username</label>
+          <label htmlFor="username">Email</label>
           <input
             className="login-input"
             type="text"
             id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 

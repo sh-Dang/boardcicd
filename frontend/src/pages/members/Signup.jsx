@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './Signup.css';
 
 function Signup() {
   const [form, setForm] = useState({
     username: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    email:'',
+    nickname:'',
   });
+  const navigate = useNavigate();
 
   const [error, setError] = useState('');
 
@@ -37,11 +41,14 @@ function Signup() {
     try {
       const response = await axios.post('/api/auth/signup', {
         username: form.username,
-        password: form.password
+        password: form.password,
+        email:form.email,
+        nickname:form.nickname,
       });
 
       console.log('회원가입 성공:', response.data);
       alert('회원가입 완료! 로그인 해주세요.');
+      navigate(`/`);
 
     } catch (err) {
       console.error(err);
@@ -54,6 +61,36 @@ function Signup() {
       <h2 className="signup-title">Sign Up</h2>
 
       <form onSubmit={handleSubmit}>
+        <div className="signup-form-group">
+          <label htmlFor="email">E-mail</label>
+          <input
+            id="email"
+            className="signup-input"
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+
+            placeholder="example@email.com"
+            required
+            autoComplete="email"
+
+            pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+            title="올바른 이메일 형식을 입력해주세요. (example@email.com)"
+          />
+        </div>
+        
+        <div className="signup-form-group">
+          <label>닉네임</label>
+          <input
+            className="signup-input"
+            type="text"
+            name="nickname"
+            value={form.nickname}
+            onChange={handleChange}
+          />
+        </div>
+
         <div className="signup-form-group">
           <label>Username</label>
           <input

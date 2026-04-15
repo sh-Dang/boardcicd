@@ -26,6 +26,9 @@ public class AuthService {
         if (memberRepository.existsByEmail(dto.getEmail())) {
             throw new IllegalArgumentException("이미 사용 중인 email입니다.");
         }
+        if (memberRepository.existsByNickname(dto.getNickname())) {
+            throw new IllegalArgumentException("이미 사용 중인 nickname입니다.");
+        }
 
         Member member = new Member();
         member.setUsername(dto.getUsername());
@@ -45,7 +48,7 @@ public class AuthService {
 
     public LoginResponseDto login(LoginRequestDto dto) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword())
+                new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword())
         );
 
         String accessToken = jwtTokenProvider.createToken(authentication.getName());
