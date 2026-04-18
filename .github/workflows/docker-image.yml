@@ -10,8 +10,6 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_BACKEND: ghcr.io/${{ github.repository_owner }}/boardcicd-backend
-  IMAGE_FRONTEND: ghcr.io/${{ github.repository_owner }}/boardcicd-frontend
 
 jobs:
   build-and-push:
@@ -23,6 +21,10 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
+      - name: Convert owner to lowercase
+        id: owner
+        run: echo "owner_lc=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_OUTPUT
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -37,8 +39,8 @@ jobs:
           context: ./backend
           push: true
           tags: |
-            ${{ env.IMAGE_BACKEND }}:latest
-            ${{ env.IMAGE_BACKEND }}:${{ github.sha }}
+            ghcr.io/${{ steps.owner.outputs.owner_lc }}/boardcicd-backend:latest
+            ghcr.io/${{ steps.owner.outputs.owner_lc }}/boardcicd-backend:${{ github.sha }}
 
       - name: Build and push frontend
         uses: docker/build-push-action@v6
@@ -46,5 +48,5 @@ jobs:
           context: ./frontend
           push: true
           tags: |
-            ${{ env.IMAGE_FRONTEND }}:latest
-            ${{ env.IMAGE_FRONTEND }}:${{ github.sha }}
+            ghcr.io/${{ steps.owner.outputs.owner_lc }}/boardcicd-frontend:latest
+            ghcr.io/${{ steps.owner.outputs.owner_lc }}/boardcicd-frontend:${{ github.sha }}
