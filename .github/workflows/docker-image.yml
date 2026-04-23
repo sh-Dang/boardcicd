@@ -64,7 +64,9 @@ jobs:
           username: ubuntu
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
-            cd ~/
-            docker-compose pull
-            docker-compose up -d
-            docker image prune -f
+              cd ~/
+              docker-compose down --remove-orphans
+              docker system prune -f
+              docker-compose pull
+              docker-compose up -d
+              docker image prune -f
