@@ -39,7 +39,7 @@ function Signup() {
     }
 
     try {
-      const response = await axios.post('/api/auth/signup', {
+      const response = await axios.post('http://158.180.82.183:8888/api/auth/signup', {
         username: form.username,
         password: form.password,
         email:form.email,
