@@ -52,3 +52,19 @@ jobs:
           tags: |
             ghcr.io/${{ steps.owner.outputs.owner_lc }}/boardcicd-frontend:latest
             ghcr.io/${{ steps.owner.outputs.owner_lc }}/boardcicd-frontend:${{ github.sha }}
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH로 VM 접속 후 배포
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ubuntu
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            cd ~/
+            docker-compose pull
+            docker-compose up -d
+            docker image prune -f
