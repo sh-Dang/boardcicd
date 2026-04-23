@@ -13,7 +13,7 @@ function PostEdit(){
 
     // 선택된 게시글 조회
     useEffect(() => {
-        axios.get(`/api/posts/${id}`)
+        axios.get(`http://158.180.82.183:8888/api/posts/${id}`)
         .then((response) => {
             setPost({
             title: response.data.title,
@@ -40,7 +40,7 @@ function PostEdit(){
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        axios.patch(`/api/posts/${id}`, post)
+        axios.patch(`http://158.180.82.183:8888/api/posts/${id}`, post)
         .then(()=>{
             alert('게시글이 수정됐습니다.');
             naviagte(`/posts/${id}`);

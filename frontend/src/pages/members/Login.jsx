@@ -24,7 +24,7 @@ function Login({ setIsLogin }) {
     try {
       console.log('로그인시도 유저 정보:', { email, password });
 
-      const response = await axios.post('/api/auth/login', {
+      const response = await axios.post('http://158.180.82.183:8888/api/auth/login', {
         email,
         password
       });

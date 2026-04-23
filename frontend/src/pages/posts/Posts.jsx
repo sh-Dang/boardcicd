@@ -9,7 +9,7 @@ function Posts() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('/api/posts')
+    axios.get('http://158.180.82.183:8888/api/posts')
       .then((response) => {
         console.log(response);
         setPosts(response.data);

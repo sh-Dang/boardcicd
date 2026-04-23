@@ -12,7 +12,7 @@ function Post() {
     const handleDelete = () => {
         if (!window.confirm('정말 삭제하시겠습니까?')) return;
 
-        axios.delete(`/api/posts/${id}`)
+        axios.delete(`http://158.180.82.183:8888/api/posts/${id}`)
             .then(() => {
                 alert('삭제 완료');
                 navigate('/posts'); // 목록으로 이동
@@ -23,7 +23,7 @@ function Post() {
     };
 
     useEffect(()=>{
-        axios.get(`/api/posts/${id}`)
+        axios.get(`http://158.180.82.183:8888/api/posts/${id}`)
         .then((res) => {
             console.log(res.data);
             setPost(res.data);

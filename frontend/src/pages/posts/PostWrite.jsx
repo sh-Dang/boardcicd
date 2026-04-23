@@ -20,7 +20,7 @@ function PostWrite() {
     }
 
     try {
-      await axios.post('/api/posts', {
+      await axios.post('http://158.180.82.183:8888/api/posts', {
         title,
         content,
       });
