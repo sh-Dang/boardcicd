@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Signup.css';
-import API_BASE_URL from '../config/api';
+import API_BASE_URL from '../../config/api';
 
 function Signup() {
   const [form, setForm] = useState({

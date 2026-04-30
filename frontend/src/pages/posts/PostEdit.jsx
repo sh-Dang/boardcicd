@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import './PostEdit.css';
-import API_BASE_URL from '../config/api';
+import API_BASE_URL from '../../config/api';
 
 function PostEdit(){
     const naviagte = useNavigate();

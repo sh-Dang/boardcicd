@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css';
-import API_BASE_URL from '../config/api';
+import API_BASE_URL from '../../config/api';
 
 function Login({ setIsLogin }) {
   const [email, setEmail] = useState('');

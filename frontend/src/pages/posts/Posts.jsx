@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Posts.css';
-import API_BASE_URL from '../config/api';
+import API_BASE_URL from '../../config/api';
 
 // 전체 게시글 불러오는 페이지
 function Posts() {
