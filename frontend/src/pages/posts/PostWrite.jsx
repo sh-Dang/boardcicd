@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './PostWrite.css';
+import API_BASE_URL from '../config/api';
 
 // 게시글 작성 페이지
 function PostWrite() {
@@ -20,7 +21,7 @@ function PostWrite() {
     }
 
     try {
-      await axios.post('http://158.180.82.183:8888/api/posts', {
+      await axios.post(`${API_BASE_URL}/api/posts`, {
         title,
         content,
       });

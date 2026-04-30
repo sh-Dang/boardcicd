@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Posts.css';
+import API_BASE_URL from '../config/api';
 
 // 전체 게시글 불러오는 페이지
 function Posts() {
@@ -9,7 +10,7 @@ function Posts() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://158.180.82.183:8888/api/posts')
+    axios.get(`${API_BASE_URL}/api/posts`)
       .then((response) => {
         console.log(response);
         setPosts(response.data);

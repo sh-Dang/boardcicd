@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Signup.css';
+import API_BASE_URL from '../config/api';
 
 function Signup() {
   const [form, setForm] = useState({
@@ -39,7 +40,7 @@ function Signup() {
     }
 
     try {
-      const response = await axios.post('http://158.180.82.183:8888/api/auth/signup', {
+      const response = await axios.post(`${API_BASE_URL}/api/auth/signup`, {
         username: form.username,
         password: form.password,
         email:form.email,

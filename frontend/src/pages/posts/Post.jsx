@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Post.css';
+import API_BASE_URL from '../config/api';
 
 // 한 개의 게시글
 function Post() {
@@ -12,7 +13,7 @@ function Post() {
     const handleDelete = () => {
         if (!window.confirm('정말 삭제하시겠습니까?')) return;
 
-        axios.delete(`http://158.180.82.183:8888/api/posts/${id}`)
+        axios.delete(`${API_BASE_URL}/api/posts/${id}`)
             .then(() => {
                 alert('삭제 완료');
                 navigate('/posts'); // 목록으로 이동
@@ -23,7 +24,7 @@ function Post() {
     };
 
     useEffect(()=>{
-        axios.get(`http://158.180.82.183:8888/api/posts/${id}`)
+        axios.get(`${API_BASE_URL}/api/posts/${id}`)
         .then((res) => {
             console.log(res.data);
             setPost(res.data);

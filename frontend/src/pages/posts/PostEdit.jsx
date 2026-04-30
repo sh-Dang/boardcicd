@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import './PostEdit.css';
+import API_BASE_URL from '../config/api';
 
 function PostEdit(){
     const naviagte = useNavigate();
@@ -13,7 +14,7 @@ function PostEdit(){
 
     // 선택된 게시글 조회
     useEffect(() => {
-        axios.get(`http://158.180.82.183:8888/api/posts/${id}`)
+        axios.get(`${API_BASE_URL}/api/posts/${id}`)
         .then((response) => {
             setPost({
             title: response.data.title,
@@ -40,7 +41,7 @@ function PostEdit(){
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        axios.patch(`http://158.180.82.183:8888/api/posts/${id}`, post)
+        axios.patch(`${API_BASE_URL}/api/posts/${id}`, post)
         .then(()=>{
             alert('게시글이 수정됐습니다.');
             naviagte(`/posts/${id}`);
