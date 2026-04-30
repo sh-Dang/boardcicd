@@ -219,3 +219,4 @@ gradle-app.setting
 # End of https://www.toptal.com/developers/gitignore/api/react,java,macos,intellij,gradle
 GEMINI.md
 .env
+.idea/

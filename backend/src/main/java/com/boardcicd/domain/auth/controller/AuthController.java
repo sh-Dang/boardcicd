@@ -6,6 +6,7 @@ import com.boardcicd.domain.member.dto.LoginResponseDto;
 import com.boardcicd.domain.member.dto.SignupRequestDto;
 import com.boardcicd.domain.member.dto.SignupResponseDto;
 import com.boardcicd.global.dto.response.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,12 +20,12 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ApiResponse<SignupResponseDto> signup(@RequestBody SignupRequestDto signupRequestDto) {
+    public ApiResponse<SignupResponseDto> signup(@Valid @RequestBody SignupRequestDto signupRequestDto) {
         return ApiResponse.success(authService.signup(signupRequestDto));
     }
 
     @PostMapping("/login")
-    public ApiResponse<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
+    public ApiResponse<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto) {
         return ApiResponse.success(authService.login(loginRequestDto));
     }
 }
