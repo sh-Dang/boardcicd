@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, data } from 'react-router-dom';
 import axios from 'axios';
 import './Post.css';
 import API_BASE_URL from '../../config/api';
@@ -9,18 +9,23 @@ function Post() {
     const { id } = useParams(); // /posts/:id 에서 id 추출
     const [post, setPost] = useState(null);
     const navigate = useNavigate();
+    const token = localStorage.getItem("accessToken"); // 인증에 사용할 토큰 추출
 
     const handleDelete = () => {
         if (!window.confirm('정말 삭제하시겠습니까?')) return;
 
-        axios.delete(`${API_BASE_URL}/api/posts/${id}`)
-            .then(() => {
-                alert('삭제 완료');
-                navigate('/posts'); // 목록으로 이동
-            })
-            .catch((err) => {
-                console.error('삭제 실패:', err);
-            });
+        axios.delete(`${API_BASE_URL}/api/posts/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(() => {
+            alert('삭제 완료');
+            navigate('/posts'); // 목록으로 이동
+        })
+        .catch((err) => {
+            console.error('삭제 실패:', err);
+        });
     };
 
     useEffect(()=>{
