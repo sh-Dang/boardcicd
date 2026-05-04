@@ -13,6 +13,7 @@
 /* 카드 영역 */
 .post-card {
   width: 800px;
+  height: 450px;
   background-color: white;
   border-radius: 12px;
   padding: 30px;
@@ -40,6 +41,7 @@
   font-size: 16px;
   line-height: 1.6;
   white-space: pre-line; /* 줄바꿈 유지 */
+  text-align: left; /* 게시글 왼쪽 정렬 */
 }
 
 /* 로딩 */

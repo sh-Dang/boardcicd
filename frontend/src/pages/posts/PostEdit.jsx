@@ -11,6 +11,7 @@ function PostEdit(){
         title : '',
         content : '',
     });
+    const token = localStorage.getItem("accessToken"); // 인증에 사용할 토큰 추출
 
     // 선택된 게시글 조회
     useEffect(() => {
@@ -41,7 +42,11 @@ function PostEdit(){
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        axios.patch(`${API_BASE_URL}/api/posts/${id}`, post)
+        axios.patch(`${API_BASE_URL}/api/posts/${id}`, post, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         .then(()=>{
             alert('게시글이 수정됐습니다.');
             naviagte(`/posts/${id}`);

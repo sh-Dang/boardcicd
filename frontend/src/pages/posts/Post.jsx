@@ -48,17 +48,17 @@ function Post() {
         <div className='post-container'>
             <div className='post-card'>
                 
-                <h1 className='post-title'>{post.title}</h1>
+                <h1 className='post-title'>{post.data.title}</h1>
 
                 <div className='post-meta'>
-                    <span>작성자: {post.author || '익명'}</span>
-                    <span>작성일: {post.createdAt || '날짜 없음'}</span>
+                    <span>작성자: {post.data.username || '익명'}</span>
+                    <span>작성일: {post.data.createdAt || '날짜 없음'}</span>
                 </div>
 
                 <hr />
 
                 <div className='post-content'>
-                    {post.content}
+                    {post.data.content}
                 </div>
 
             </div>

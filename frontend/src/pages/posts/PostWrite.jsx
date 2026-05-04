@@ -10,6 +10,7 @@ function PostWrite() {
   const [content, setContent] = useState('');
 
   const navigate = useNavigate();
+  const token = localStorage.getItem("accessToken");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +25,10 @@ function PostWrite() {
       await axios.post(`${API_BASE_URL}/api/posts`, {
         title,
         content,
+      },{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
 
       alert('게시글이 등록되었습니다.');
