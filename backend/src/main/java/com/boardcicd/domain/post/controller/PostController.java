@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +27,8 @@ import java.util.Map;
 @Slf4j
 public class PostController {
 
-    private final PostService postService;// service 주입
-    private final ObjectMapper objectMapper;
+    private final PostService postService; // service 주입
+    private final ObjectMapper objectMapper; // 기본 생성되는 Bean을 주입받아 사용하기(직접구현X)
 
     // DB내 게시글들을 불러오는 메서드
     @GetMapping
@@ -77,7 +78,7 @@ public class PostController {
     // 게시글 일부 수정 메서드
     @PatchMapping("/{postId}")
     public ApiResponse<PostResponseDto> updatePost(@PathVariable Long postId,
-                           @RequestBody Post post) {
+                           @RequestBody Post post) throws AccessDeniedException {
         log.debug("수정 요청된 게시글 postId={}", postId);
 
         Post updatedPost = postService.updatePost(postId, post);
@@ -99,7 +100,7 @@ public class PostController {
      * @since 2026/04/11
      */
     @DeleteMapping("/{postId}")
-    public ApiResponse<Object> deletePost(@PathVariable Long postId) {
+    public ApiResponse<Object> deletePost(@PathVariable Long postId) throws AccessDeniedException {
         log.debug("삭제 요청된 게시글 postId={}", postId);
 
         postService.deletePost(postId);

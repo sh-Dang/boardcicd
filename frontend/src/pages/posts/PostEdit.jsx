@@ -18,8 +18,8 @@ function PostEdit(){
         axios.get(`${API_BASE_URL}/api/posts/${id}`)
         .then((response) => {
             setPost({
-            title: response.data.title,
-            content: response.data.content,
+            title: response.data.data.title,
+            content: response.data.data.content,
             });
         })
         .catch((error) => {

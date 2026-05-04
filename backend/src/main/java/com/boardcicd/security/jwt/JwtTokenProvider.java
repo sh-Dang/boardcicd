@@ -42,12 +42,13 @@ public class JwtTokenProvider {
      * @param email 토큰에 담을 사용자 이메일
      * @return 서명된 JWT 문자열
      */
-    public String createToken(String email) {
+    public String createToken(String email, Long memberId) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + expiration);
 
         return Jwts.builder()
                 .subject(email)
+                .claim("memberId", memberId)  //
                 .issuedAt(now)
                 .expiration(expiry)
                 .signWith(getSigningKey())
@@ -91,5 +92,15 @@ public class JwtTokenProvider {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    // 유저의 PK를 조회하기 위한 메서드
+    public Long getMemberId(String token) {
+        return Jwts.parser()
+                .verifyWith((SecretKey) getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("memberId", Long.class);  // 클레임에서 꺼내기
     }
 }

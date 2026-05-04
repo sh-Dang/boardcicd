@@ -33,14 +33,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = bearerToken.substring(7);
 
             if (jwtTokenProvider.validateToken(token)) {
-                String username = jwtTokenProvider.getUsername(token);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+//                String username = jwtTokenProvider.getUsername(token);
+//                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                Long memberId = jwtTokenProvider.getMemberId(token);
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
-                                userDetails,
+                                memberId,
                                 null,
-                                userDetails.getAuthorities()
+                                null
                         );
 
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

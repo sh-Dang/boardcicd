@@ -52,7 +52,12 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword())
         );
 
-        String accessToken = jwtTokenProvider.createToken(authentication.getName());
+        String email = authentication.getName();
+        // 유저Id의 빠른 조회를 위해 Token 생성시 memberId도 담아서 제공
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원"));
+
+        String accessToken = jwtTokenProvider.createToken(email, member.getId());
 
         return new LoginResponseDto(accessToken);
 
