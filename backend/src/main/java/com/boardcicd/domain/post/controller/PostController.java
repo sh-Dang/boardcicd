@@ -4,9 +4,10 @@ import com.boardcicd.domain.post.dto.PostResponseDto;
 import com.boardcicd.domain.post.entity.Post;
 import com.boardcicd.domain.post.service.PostService;
 import com.boardcicd.global.dto.response.ApiResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import java.util.Map;
 public class PostController {
 
     private final PostService postService;// service 주입
+    private final ObjectMapper objectMapper;
 
     // DB내 게시글들을 불러오는 메서드
     @GetMapping
@@ -38,7 +40,7 @@ public class PostController {
 
     // 특정 게시글 조회 메서드
     @GetMapping("/{postId}")
-    public ApiResponse<PostResponseDto> getPost(@PathVariable Long postId) {
+    public ApiResponse<PostResponseDto> getPost(@PathVariable Long postId) throws JsonProcessingException {
         log.debug("조회 요청된 게시글 postId={}", postId);
 
         /*
@@ -49,9 +51,18 @@ public class PostController {
           따라서 비즈니스 로직을 담당하는 Service가 아닌,
           Controller에서 Entity → ResponseDTO 변환을 수행하는 것이 계층 분리에 적합하다.
          */
-        Post foundPost = postService.getPost(postId); // ResponseEntity를 반환하기
 
-        return ApiResponse.success(new PostResponseDto(foundPost));
+        /*
+        * 응답 JSON의 정확한 형식을 보기 위한 코드 수정, Spring 내부의 ObjectMapper를 사용
+        * */
+        Post foundPost = postService.getPost(postId);
+
+        PostResponseDto dto = new PostResponseDto(foundPost);
+        ApiResponse<PostResponseDto> response = ApiResponse.success(dto);
+
+        log.debug("response = {}", objectMapper.writeValueAsString(response));
+
+        return response;
     }
 
     // 게시글 등록 메서드
@@ -75,25 +86,24 @@ public class PostController {
 
     /**
      * 게시글 삭제 API
+     * <p>
      * [응답]
      * - 상태코드: 200 OK
      * - Body:
-     *   {
-     *     "message": "삭제 완료",
-     *     "status": 200
-     *   }
+     * {
+     *   "success": true,
+     *   "message": "삭제 완료",
+     *   "data": null
+     * }
+     *
      * @since 2026/04/11
      */
     @DeleteMapping("/{postId}")
-    public ResponseEntity<Map<String, Object>> deletePost(@PathVariable Long postId) {
+    public ApiResponse<Object> deletePost(@PathVariable Long postId) {
         log.debug("삭제 요청된 게시글 postId={}", postId);
+
         postService.deletePost(postId);
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "삭제 완료");
-        response.put("status", 200);
-
-        return ResponseEntity.ok(response);
+        return ApiResponse.success(null);
     }
 
 }
