@@ -1,5 +1,6 @@
 package com.boardcicd.domain.post.controller;
 
+import com.boardcicd.domain.post.dto.PostRequestDto;
 import com.boardcicd.domain.post.dto.PostResponseDto;
 import com.boardcicd.domain.post.entity.Post;
 import com.boardcicd.domain.post.service.PostService;
@@ -11,9 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 게시글(Post) 관련 HTTP 요청을 처리하는 컨트롤러
@@ -68,20 +67,22 @@ public class PostController {
 
     // 게시글 등록 메서드
     @PostMapping
-    public ApiResponse<PostResponseDto> createPost(@RequestBody Post post) {
-        log.debug("등록 요청된 게시글 제목 title={}", post.getTitle());
+    public ApiResponse<PostResponseDto> createPost(@RequestBody PostRequestDto.Create postRequestDto) {
+        log.debug("등록 요청된 게시글 제목 title={}", postRequestDto.getTitle());
+        log.debug("등록 요청된 게시글 내용 content={}", postRequestDto.getContent());
 
-        Post savedPost = postService.createPost(post); // ResponseEntity를 반환하기
+        Post savedPost = postService.createPost(postRequestDto); // ResponseEntity를 반환하기
         return ApiResponse.success(new PostResponseDto(savedPost));
     }
+
 
     // 게시글 일부 수정 메서드
     @PatchMapping("/{postId}")
     public ApiResponse<PostResponseDto> updatePost(@PathVariable Long postId,
-                           @RequestBody Post post) throws AccessDeniedException {
+                           @RequestBody PostRequestDto.Update postRequestDto) throws AccessDeniedException {
         log.debug("수정 요청된 게시글 postId={}", postId);
 
-        Post updatedPost = postService.updatePost(postId, post);
+        Post updatedPost = postService.updatePost(postId, postRequestDto);
         return ApiResponse.success(new PostResponseDto(updatedPost));
     }
 

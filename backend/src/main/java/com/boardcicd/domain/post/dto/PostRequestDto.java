@@ -1,10 +1,16 @@
-package com.boardcicd.global.dto.request;
+package com.boardcicd.domain.post.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
-public class PostRequest {
+/**
+ * 게시글 관련 요청들을 받아서 Entity에 넘겨줄 Dto
+ * 현재 create, update class를 구분하여 생성하고 있다.
+ *
+ * @since 2026/05/05
+ */
+public class PostRequestDto {
 
     @Getter
     public static class Create {

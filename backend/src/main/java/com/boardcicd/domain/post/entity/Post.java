@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
 @Table(name="posts") // DB명 수동매핑
 public class Post {
     @Id
@@ -39,4 +38,24 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "members_id", nullable = false)
     private Member member;
+
+    protected Post() {} // JPA 기본 생성자
+
+    private Post(String title, String content, Member member) {
+        this.title = title;
+        this.content = content;
+        this.member = member;
+    }
+
+    // 직접 호출 하지 않고 Post.create() 사용
+    public static Post create(String title, String content, Member member) {
+        return new Post(title, content, member);
+    }
+
+    // 수정시 Post.update() 사용
+    public void update(String title, String content) {
+        if (title != null) this.title = title;
+        if (content != null) this.content = content;
+    }
+
 }

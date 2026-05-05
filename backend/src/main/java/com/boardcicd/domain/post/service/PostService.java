@@ -2,6 +2,7 @@ package com.boardcicd.domain.post.service;
 
 import com.boardcicd.domain.member.entity.Member;
 import com.boardcicd.domain.member.repository.MemberRepository;
+import com.boardcicd.domain.post.dto.PostRequestDto;
 import com.boardcicd.domain.post.entity.Post;
 import com.boardcicd.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class PostService {
     }
 
     // 게시글 등록 메서드
-    public Post createPost(Post post) {
+    public Post createPost(PostRequestDto.Create postRequestDto) {
         Long memberId = (Long) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
@@ -37,32 +38,41 @@ public class PostService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("사용자 없음"));
 
-        post.setMember(member);
+        // RequestDto를 Post에 매핑
+        Post post = Post.create(postRequestDto.getTitle(), postRequestDto.getContent(), member);
+//        post.setTitle(postRequestDto.getTitle());
+//        post.setContent();
+//        post.setMember(member);
 
         return postRepository.save(post);
     }
 
     // 게시글 수정 메서드
-    public Post updatePost(Long postId, Post post) throws AccessDeniedException {
-        Post findPost = postRepository.findById(postId)
+    public Post updatePost(Long postId, PostRequestDto.Update postRequestDto) throws AccessDeniedException {
+        Post foundPost = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id=" + postId));
         Long memberId = (Long) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
 
         // 작성자 본인 확인
-        if (!findPost.getMember().getId().equals(memberId)) {
+        if (!foundPost.getMember().getId().equals(memberId)) {
             throw new AccessDeniedException("게시글 수정 권한이 없습니다.");
         }
 
-        if (post.getTitle() != null) { // 제목에 대한 예외처리
-            findPost.setTitle(post.getTitle());
+//        if (postRequestDto.getTitle() != null) { // 제목에 대한 예외처리
+//            foundPost.setTitle(postRequestDto.getTitle());
+//        }
+//
+//        if (postRequestDto.getContent() != null) { // 내용에 대한 예외처리
+//            foundPost.setContent(postRequestDto.getContent());
+//        }
+        // post Entity 내부의 메서드를 사용하도록 변경
+        if (postRequestDto.getTitle() != null && postRequestDto.getContent() != null){
+            foundPost.update(postRequestDto.getTitle(), postRequestDto.getContent());
         }
 
-        if (post.getContent() != null) { // 내용에 대한 예외처리
-            findPost.setContent(post.getContent());
-        }
-        return postRepository.save(findPost);
+        return postRepository.save(foundPost);
     }
 
     // 게시글 삭제 메서드
