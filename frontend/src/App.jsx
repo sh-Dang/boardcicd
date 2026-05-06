@@ -8,16 +8,18 @@ import Post from './pages/posts/Post';
 import PostWrite from './pages/posts/PostWrite';
 import Header from './components/Header';
 import PostEdit from './pages/posts/PostEdit';
-
+import { isTokenValid } from './utils/auth';
 
 
 function App() {
   const [isLogin, setIsLogin] = useState(() => {
   const token = localStorage.getItem('accessToken');
     // 토큰이 null이나 undefined가 아니고, 실제 값이 들어있을 때만 true
-    return !!token && token !== "undefined" && token !== "null"
-  });
+    // return !!token && token !== "undefined" && token !== "null"
 
+    // 토큰의 유효시간 검증 로직 추가
+    return isTokenValid(token);
+  });
   return (
     <>
       {/* 라우터 시작 : URL에 따라 페이지 컴포넌트를 렌더링 */}

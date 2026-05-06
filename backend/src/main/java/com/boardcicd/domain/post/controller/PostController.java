@@ -7,6 +7,7 @@ import com.boardcicd.domain.post.service.PostService;
 import com.boardcicd.global.dto.response.ApiResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -67,7 +68,7 @@ public class PostController {
 
     // 게시글 등록 메서드
     @PostMapping
-    public ApiResponse<PostResponseDto> createPost(@RequestBody PostRequestDto.Create postRequestDto) {
+    public ApiResponse<PostResponseDto> createPost(@Valid @RequestBody PostRequestDto.Create postRequestDto) {
         log.debug("등록 요청된 게시글 제목 title={}", postRequestDto.getTitle());
         log.debug("등록 요청된 게시글 내용 content={}", postRequestDto.getContent());
 
@@ -79,7 +80,7 @@ public class PostController {
     // 게시글 일부 수정 메서드
     @PatchMapping("/{postId}")
     public ApiResponse<PostResponseDto> updatePost(@PathVariable Long postId,
-                           @RequestBody PostRequestDto.Update postRequestDto) throws AccessDeniedException {
+                           @Valid @RequestBody PostRequestDto.Update postRequestDto) throws AccessDeniedException {
         log.debug("수정 요청된 게시글 postId={}", postId);
 
         Post updatedPost = postService.updatePost(postId, postRequestDto);

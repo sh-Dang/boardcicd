@@ -5,6 +5,17 @@ import {Link, useNavigate} from "react-router-dom";
 function Header({ isLogin, setIsLogin }){
     const accessToken = localStorage.getItem('accessToken');
     const navigate = useNavigate();
+    // 렌더링 시점에 토큰 재검증
+    // (탭을 오래 열어뒀다가 돌아온 경우 등 대응)
+    useEffect(() => {
+      const token = localStorage.getItem('accessToken');
+      if (isLogin && !isTokenValid(token)) {
+        localStorage.removeItem('accessToken');
+        setIsLogin(false);
+        navigate('/login', { replace: true });
+      }
+    }, [isLogin]);
+
     const handleLogout = () => {
       localStorage.removeItem('accessToken');
       setIsLogin(false);
