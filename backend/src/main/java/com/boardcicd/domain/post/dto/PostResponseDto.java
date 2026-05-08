@@ -11,6 +11,7 @@ public class PostResponseDto {
         private final Long id;
         private final String title;
         private final String content;
+        private final String nickname;
         private final String username;
         @JsonFormat(pattern = "yy/MM/dd HH:mm") // 보낼 JSON양식 설정
         private final LocalDateTime createdAt;
@@ -19,7 +20,8 @@ public class PostResponseDto {
             this.id = post.getId();
             this.title = post.getTitle();
             this.content = post.getContent();
-            this.username = post.getMember().getUsername();
+            this.nickname = post.getMember().getNickname();
+            this.username = post.getMember().getUsername(); // MyPage를 위해 보내줌
             this.createdAt = post.getCreatedAt();
         }
 

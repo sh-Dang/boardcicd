@@ -51,7 +51,7 @@ function Post() {
                 <h1 className='post-title'>{post.data.title}</h1>
 
                 <div className='post-meta'>
-                    <span>작성자: {post.data.username || '익명'}</span>
+                    <span>작성자: {post.data.nickname || '익명'}</span>
                     <span>작성일: {post.data.createdAt || '날짜 없음'}</span>
                 </div>
 
@@ -65,6 +65,13 @@ function Post() {
 
         {/* 버튼 영역 분리 */}
         <div className='post-actions'>
+            <button
+                className='goback-btn'
+                onClick={() => navigate(`/posts`)}
+            >
+                돌아가기
+            </button>
+
             <button
                 className='edit-btn'
                 onClick={() => navigate(`/posts/${id}/edit`)}

@@ -49,7 +49,7 @@ function Signup() {
 
       console.log('회원가입 성공:', response.data);
       alert('회원가입 완료! 로그인 해주세요.');
-      navigate(`/`);
+      navigate(`/posts`);
 
     } catch (err) {
       console.error(err);

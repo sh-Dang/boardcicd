@@ -1,6 +1,8 @@
 import React from "react";
 import "./Header.css";
+import {useEffect} from 'react';
 import {Link, useNavigate} from "react-router-dom";
+import { isTokenValid } from "../utils/auth";
 
 function Header({ isLogin, setIsLogin }){
     const accessToken = localStorage.getItem('accessToken');

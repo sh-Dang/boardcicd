@@ -49,7 +49,7 @@ function Posts() {
             > 
               <td>{post.id}</td>
               <td>{post.title}</td>
-              <td>{post.username}</td>
+              <td>{post.nickname}</td>
               <td>{post.createdAt}</td>
               {/* <td>{post.updatedAt}</td> */}
             </tr>

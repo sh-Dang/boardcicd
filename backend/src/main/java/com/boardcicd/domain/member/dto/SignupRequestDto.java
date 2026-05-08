@@ -12,8 +12,8 @@ import lombok.Setter;
   회원가입에 요청을 보낼때 사용할 DTO객체
  */
 public class SignupRequestDto {
-    @NotBlank(message = "아이디를 입력해주세요")
-    @Size(min = 4, max = 20, message = "아이디는 4~20자 이내로 입력해주세요")
+    @NotBlank(message = "이름을 입력해주세요")
+    @Size(min = 3, max = 4, message = "이름은 3 또는 4자 여야합니다.")
     private String username;
 
     @NotBlank(message = "비밀번호를 입력해주세요")

@@ -61,7 +61,7 @@
 }
 
 /* 버튼 스타일 */
-.edit-btn, .delete-btn {
+.edit-btn, .delete-btn, .goback-btn {
   padding: 10px 16px;
   background-color: #4a90e2;
   margin : 10px;
