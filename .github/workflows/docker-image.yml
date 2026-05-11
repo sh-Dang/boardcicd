@@ -74,13 +74,10 @@ jobs:
           push: true
 
           # Docker 이미지 태그 설정
+          # - latest: 최신 버전 태그
+          # - sha: 커밋 SHA 기반 태그 (특정 버전 롤백 가능)
           tags: |
-  
-            # 최신 버전 태그
             ghcr.io/${{ steps.owner.outputs.owner_lc }}/boardcicd-backend:latest
-
-            # 커밋 SHA 기반 태그
-            # 특정 버전 롤백 가능
             ghcr.io/${{ steps.owner.outputs.owner_lc }}/boardcicd-backend:${{ github.sha }}
 
       # =========================
@@ -105,12 +102,10 @@ jobs:
             VITE_API_URL=${{ secrets.VITE_API_URL }}
 
           # Docker 이미지 태그
+          # - latest: 최신 태그
+          # - sha: 특정 커밋 버전 태그
           tags: |
-  
-            # 최신 태그
             ghcr.io/${{ steps.owner.outputs.owner_lc }}/boardcicd-frontend:latest
-
-            # 특정 커밋 버전 태그
             ghcr.io/${{ steps.owner.outputs.owner_lc }}/boardcicd-frontend:${{ github.sha }}
 
   # =========================
@@ -140,25 +135,17 @@ jobs:
           # SSH 개인키
           key: ${{ secrets.VM_SSH_KEY }}
 
-          # VM 내부에서 실행되는 명령어 예약
+          # VM 내부에서 실행되는 명령어 목록:
+          # 1. 홈 디렉토리 이동
+          # 2. 기존 컨테이너 종료 및 제거
+          # 3. 사용하지 않는 리소스 제거 (dangling image / stopped container 등)
+          # 4. GHCR에서 latest 이미지 pull
+          # 5. 컨테이너 백그라운드 실행 (최신 이미지 기반으로 재생성)
+          # 6. 사용하지 않는 old image 제거
           script: |
-  
-              # 홈 디렉토리 이동
               cd ~/
-
-              # 기존 컨테이너 종료 및 제거
               docker-compose down --remove-orphans
-
-              # 사용하지 않는 리소스 제거
-              # dangling image / stopped container 등 정리
               docker system prune -f
-
-              # 최신 이미지 pull
-              # GHCR에서 latest 이미지 다운로드
               docker-compose pull
-
-              # 컨테이너 백그라운드 실행 (최신 이미지 기반으로 재생성)
               docker-compose up -d
-
-              # 사용하지 않는 old image 제거
               docker image prune -f
