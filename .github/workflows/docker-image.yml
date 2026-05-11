@@ -75,7 +75,7 @@ jobs:
 
           # Docker 이미지 태그 설정
           tags: |
-
+  
             # 최신 버전 태그
             ghcr.io/${{ steps.owner.outputs.owner_lc }}/boardcicd-backend:latest
 
