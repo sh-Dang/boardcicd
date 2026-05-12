@@ -19,8 +19,11 @@ function Header({ isLogin, setIsLogin }){
     }, [isLogin]);
 
     const handleLogout = () => {
+      if (!confirm("정말 로그아웃 하시겠습니까?")) return;
+
       localStorage.removeItem('accessToken');
       setIsLogin(false);
+
       navigate('/login', { replace: true });
     };
 
