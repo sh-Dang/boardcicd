@@ -34,9 +34,9 @@ services:
       - mysql_data:/var/lib/mysql  # 데이터 영구 보존
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
+      interval: 5s    # 10초마다 health check 수행
+      timeout: 5s     # 응답 대기 시간
+      retries: 5      # 실패 허용 횟수
 
 volumes:
   mysql_data:
