@@ -26,7 +26,7 @@ public class Member {
     @Column(nullable = false, length = 255)
     private String password; // 비밀번호 암호화 저장
 
-    @Column(nullable = false, length = 50, unique = true)
+    @Column(nullable = false, length = 50, unique = false)
     private String username; // 유저이름
 
     @CreationTimestamp
