@@ -1,10 +1,14 @@
 package com.boardcicd.domain.auth.service;
 
+import com.boardcicd.domain.auth.exception.AuthErrorCode;
+import com.boardcicd.domain.auth.exception.AuthException;
 import com.boardcicd.domain.member.dto.LoginRequestDto;
 import com.boardcicd.domain.member.dto.LoginResponseDto;
 import com.boardcicd.domain.member.dto.SignupRequestDto;
 import com.boardcicd.domain.member.dto.SignupResponseDto;
 import com.boardcicd.domain.member.entity.Member;
+import com.boardcicd.domain.member.exception.MemberErrorCode;
+import com.boardcicd.domain.member.exception.MemberException;
 import com.boardcicd.domain.member.repository.MemberRepository;
 import com.boardcicd.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +28,10 @@ public class AuthService {
 
     public SignupResponseDto signup(SignupRequestDto dto) {
         if (memberRepository.existsByEmail(dto.getEmail())) {
-            throw new IllegalArgumentException("이미 사용 중인 email입니다.");
+            throw new MemberException(MemberErrorCode.MEMBER_ALREADY_EXISTS);
         }
         if (memberRepository.existsByNickname(dto.getNickname())) {
-            throw new IllegalArgumentException("이미 사용 중인 nickname입니다.");
+            throw new MemberException(MemberErrorCode.NICKNAME_ALREADY_EXISTS);
         }
 
         Member member = new Member();
@@ -55,7 +59,7 @@ public class AuthService {
         String email = authentication.getName();
         // 유저Id의 빠른 조회를 위해 Token 생성시 memberId도 담아서 제공
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원"));
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND)); // 존재하지 않은 경우
 
         String accessToken = jwtTokenProvider.createToken(email, member.getId());
 

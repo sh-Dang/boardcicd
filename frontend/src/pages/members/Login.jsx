@@ -45,7 +45,11 @@ function Login({ setIsLogin }) {
       navigate('/posts', { replace: true });
     } catch (error) {
       console.error('로그인 실패:', error);
-      alert('로그인에 실패했습니다.');
+      // 백엔드 GlobalExceptionHandler에서 보낸 메시지 추출
+      // 만약 백엔드 응답이 있다면 (error.response) 그 안의 message를 사용하고, 없으면 기본 메시지를 보여줍니다.
+      const errorMessage = error.response?.data?.message || '로그인에 실패했습니다.';
+        
+      alert(errorMessage);
     }
   };
 

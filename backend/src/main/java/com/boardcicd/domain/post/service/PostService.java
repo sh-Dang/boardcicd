@@ -1,9 +1,15 @@
 package com.boardcicd.domain.post.service;
 
+import com.boardcicd.domain.auth.exception.AuthErrorCode;
+import com.boardcicd.domain.auth.exception.AuthException;
 import com.boardcicd.domain.member.entity.Member;
+import com.boardcicd.domain.member.exception.MemberErrorCode;
+import com.boardcicd.domain.member.exception.MemberException;
 import com.boardcicd.domain.member.repository.MemberRepository;
 import com.boardcicd.domain.post.dto.PostRequestDto;
 import com.boardcicd.domain.post.entity.Post;
+import com.boardcicd.domain.post.exception.PostErrorCode;
+import com.boardcicd.domain.post.exception.PostException;
 import com.boardcicd.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,7 +32,7 @@ public class PostService {
     // 특정 게시글을 불러오는 메서드
     public Post getPost(Long postId) {
         return postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id=" + postId));
+                .orElseThrow(() -> new PostException(PostErrorCode.POST_NOT_FOUND));
     }
 
     // 게시글 등록 메서드
@@ -36,7 +42,7 @@ public class PostService {
                 .getPrincipal();
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("사용자 없음"));
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         // RequestDto를 Post에 매핑
         Post post = Post.create(postRequestDto.getTitle(), postRequestDto.getContent(), member);
