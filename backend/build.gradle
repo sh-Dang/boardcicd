@@ -45,6 +45,9 @@ dependencies {
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    // Rate Limit을 위한 bucket4j 의존성
+    implementation 'com.bucket4j:bucket4j-core:8.10.1'
 }
 
 tasks.named('test') {
