@@ -42,7 +42,7 @@ public class PostService {
                 .getPrincipal();
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new MemberException(MemberErrorCode.WRONG_EMAIL_OR_PASSWORD));
 
         // RequestDto를 Post에 매핑
         Post post = Post.create(postRequestDto.getTitle(), postRequestDto.getContent(), member);

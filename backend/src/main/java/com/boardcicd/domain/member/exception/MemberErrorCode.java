@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum MemberErrorCode implements ErrorCode {
 
-    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 유저입니다."),
+    WRONG_EMAIL_OR_PASSWORD(HttpStatus.NOT_FOUND, "이메일 혹은 비밀번호를 확인해주세요"),
     MEMBER_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 가입된 이메일입니다."), //409
     NICKNAME_ALREADY_EXISTS(HttpStatus.CONFLICT, "누군가 사용중인 닉네임 입니다."); //409
 

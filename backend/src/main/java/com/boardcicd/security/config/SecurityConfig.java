@@ -3,6 +3,7 @@ package com.boardcicd.security.config;
 import com.boardcicd.security.filter.RateLimitFilter;
 import com.boardcicd.security.jwt.JwtAuthenticationFilter;
 import com.boardcicd.security.service.CustomUserDetailsService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,6 +45,37 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/signup", "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                         .anyRequest().authenticated()
+                )
+                // filter에서 발생하는 Exception을 잡아주는 메서드
+                .exceptionHandling(ex -> ex
+
+                        // 인증 실패 (401)시 반환할 Response
+                        .authenticationEntryPoint((request, response, authException) -> {
+
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json;charset=UTF-8");
+
+                            response.getWriter().write("""
+            {
+                "success": false,
+                "message": "이메일 또는 비밀번호가 올바르지 않습니다."
+            }
+            """);
+                        })
+
+                        // 권한 부족 (403)시 반환할 Response
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            response.setContentType("application/json;charset=UTF-8");
+
+                            response.getWriter().write("""
+            {
+                "success": false,
+                "message": "접근 권한이 없습니다."
+            }
+            """);
+                        })
                 )
                 .userDetailsService(customUserDetailsService)
                 // RateLimit 먼저

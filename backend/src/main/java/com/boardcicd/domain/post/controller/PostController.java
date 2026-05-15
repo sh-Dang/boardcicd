@@ -28,6 +28,7 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService; // service 주입
+    // 응답 객체의 실제 JSON 직렬화 형태를 확인하기 위한 ObjectMapper
     private final ObjectMapper objectMapper; // 기본 생성되는 Bean을 주입받아 사용하기(직접구현X)
 
     // DB내 게시글들을 불러오는 메서드
