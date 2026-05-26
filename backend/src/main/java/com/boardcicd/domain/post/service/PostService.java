@@ -54,7 +54,7 @@ public class PostService {
     }
 
     // 게시글 수정 메서드
-    public Post updatePost(Long postId, PostRequestDto.Update postRequestDto) throws AccessDeniedException {
+    public Post updatePost(Long postId, PostRequestDto.Update postRequestDto) throws PostException {
         Post foundPost = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id=" + postId));
         Long memberId = (Long) SecurityContextHolder.getContext()
@@ -63,7 +63,7 @@ public class PostService {
 
         // 작성자 본인 확인
         if (!foundPost.getMember().getId().equals(memberId)) {
-            throw new AccessDeniedException("게시글 수정 권한이 없습니다.");
+            throw new PostException(PostErrorCode.NO_PERMISSION); // 권한없음 예외코드
         }
 
 //        if (postRequestDto.getTitle() != null) { // 제목에 대한 예외처리
@@ -82,16 +82,16 @@ public class PostService {
     }
 
     // 게시글 삭제 메서드
-    public void deletePost(Long postId) throws AccessDeniedException {
+    public void deletePost(Long postId) throws PostException {
         Post findPost = postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id=" + postId));
+                .orElseThrow(() -> new PostException(PostErrorCode.POST_NOT_FOUND)); // 게시글없음 예외코드
         // 작성자 본인 확인
         Long memberId = (Long) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
 
         if (!findPost.getMember().getId().equals(memberId)) {
-            throw new AccessDeniedException("게시글 삭제 권한이 없습니다.");
+            throw new PostException(PostErrorCode.NO_PERMISSION); // 권한없음 예외
         }
         postRepository.delete(findPost);
     }

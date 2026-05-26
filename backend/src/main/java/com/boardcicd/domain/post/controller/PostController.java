@@ -33,11 +33,13 @@ public class PostController {
 
     // DB내 게시글들을 불러오는 메서드
     @GetMapping
-    public List<PostResponseDto> getPosts() {
+    public ApiResponse<List<PostResponseDto>> getPosts() {
         log.debug("전체 게시글 조회요청");
-        return postService.getPosts().stream()
+        List<PostResponseDto> posts = postService.getPosts().stream()
                 .map(PostResponseDto::new)
                 .toList();
+
+        return ApiResponse.success(posts);
     }
 
     // 특정 게시글 조회 메서드
