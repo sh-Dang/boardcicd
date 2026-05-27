@@ -33,13 +33,18 @@ public class PostController {
 
     // DB내 게시글들을 불러오는 메서드
     @GetMapping
-    public ApiResponse<List<PostResponseDto>> getPosts() {
+    public ApiResponse<List<PostResponseDto>> getPosts() throws JsonProcessingException {
         log.debug("전체 게시글 조회요청");
         List<PostResponseDto> posts = postService.getPosts().stream()
                 .map(PostResponseDto::new)
                 .toList();
 
-        return ApiResponse.success(posts);
+        ApiResponse<List<PostResponseDto>> response = ApiResponse.success(posts);
+
+        // 로그 조회용
+        log.debug("들어온 전체 게시글 응답 = {}", objectMapper.writeValueAsString(posts));
+
+        return response;
     }
 
     // 특정 게시글 조회 메서드
