@@ -1,8 +1,10 @@
 package com.boardcicd.security.config;
 
+import com.boardcicd.global.dto.response.ApiResponse;
 import com.boardcicd.security.filter.RateLimitFilter;
 import com.boardcicd.security.jwt.JwtAuthenticationFilter;
 import com.boardcicd.security.service.CustomUserDetailsService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -55,12 +57,21 @@ public class SecurityConfig {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                             response.setContentType("application/json;charset=UTF-8");
 
-                            response.getWriter().write("""
-            {
-                "success": false,
-                "message": "이메일 또는 비밀번호가 올바르지 않습니다."
-            }
-            """);
+//                            response.getWriter().write("""
+//            {
+//                "success": false,
+//                "message": "이메일 또는 비밀번호가 올바르지 않습니다."
+//            }
+//            """);
+                            ObjectMapper objectMapper = new ObjectMapper();
+
+                            ApiResponse<Void> apiResponse =
+                                    ApiResponse.error("이메일 또는 비밀번호가 올바르지 않습니다.");
+
+                            response.getWriter().write(
+                                    objectMapper.writeValueAsString(apiResponse)
+                            );
+
                         })
 
                         // 권한 부족 (403)시 반환할 Response
@@ -69,12 +80,14 @@ public class SecurityConfig {
                             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                             response.setContentType("application/json;charset=UTF-8");
 
-                            response.getWriter().write("""
-            {
-                "success": false,
-                "message": "접근 권한이 없습니다."
-            }
-            """);
+                            ObjectMapper objectMapper = new ObjectMapper();
+
+                            ApiResponse<Void> apiResponse =
+                                    ApiResponse.error("접근 권한이 없습니다.");
+
+                            response.getWriter().write(
+                                    objectMapper.writeValueAsString(apiResponse)
+                            );
                         })
                 )
                 .userDetailsService(customUserDetailsService)

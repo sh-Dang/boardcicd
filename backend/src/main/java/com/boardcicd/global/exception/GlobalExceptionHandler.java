@@ -30,14 +30,13 @@ public class GlobalExceptionHandler {
     /**
      * DTO Validation 실패 예외 처리
      * <p>
-     * &#064;Valid  검증 실패 시 발생하는 MethodArgumentNotValidException 처리
+     * '@Valid' 검증 실패 시 발생하는 MethodArgumentNotValidException 처리
      * @since 2026/05/15
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Object>> handleValidationException(
             MethodArgumentNotValidException e
     ) {
-
         String message = Objects.requireNonNull(e.getBindingResult()
                         .getFieldError())
                 .getDefaultMessage();
