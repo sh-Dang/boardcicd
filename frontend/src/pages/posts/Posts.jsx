@@ -13,7 +13,7 @@ function Posts() {
     axios.get(`${API_BASE_URL}/api/posts`)
       .then((response) => {
         console.log(response);
-        setPosts(response.data);
+        setPosts(response.data.data); // ApiResponse를 통일 했으므로 data.data로 받기
       })
       .catch((error) => {
         console.error('게시글 조회 실패:', error);
